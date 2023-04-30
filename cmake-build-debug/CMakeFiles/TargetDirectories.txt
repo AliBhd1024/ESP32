@@ -1,0 +1,3 @@
+C:/Users/Sattari/Desktop/ESP32/cmake-build-debug/CMakeFiles/ESP32.dir
+C:/Users/Sattari/Desktop/ESP32/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Sattari/Desktop/ESP32/cmake-build-debug/CMakeFiles/rebuild_cache.dir
