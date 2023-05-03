@@ -1,5 +1,5 @@
 # ESP32
-## implementing a secure communication channel between two ESP32 using Diffie-Hellman algorithm 
+## Implementing a secure communication channel between two ESP32 boards using Diffie-Hellman algorithm 
 
 ## **Team**
 - Mohammad Mahdi Sattari
