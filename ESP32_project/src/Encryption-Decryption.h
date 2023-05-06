@@ -5,8 +5,12 @@
 
 void setKEY(uint32_t key);
 
-String encryptMessage(const String plainTextMessage);
+void AES_Encrypt(unsigned char* message);
 
-String decryptMessage(const String encryptedMessage);
+// String decryptMessage(const String encryptedMessage);
+
+// void encryptMessageECB(unsigned char* message);
+
+// void kee(unsigned char* key);
 
 #endif // __ENCRYPTION_DECRYPTION_H

@@ -16,6 +16,8 @@ void formatMacAddress(const MAC_ADDRESS macAddress, char* buffer, int len)
 String getLastReceivedPacket() 
 // get just received packet
 {
+    String tmp = lastReceivedPacket;
+    lastReceivedPacket = "\0";
     return lastReceivedPacket;
 }
 
@@ -32,6 +34,8 @@ void receiveCallBack(const MAC_ADDRESS macAddress, const uint8_t *data, int data
     formatMacAddress(macAddress, macStr, 18);
 
     lastReceivedPacket = buffer;
+    Serial.print(">> received packet : ");
+    Serial.println(buffer);
 }
 
 void sentCallBack(const MAC_ADDRESS macAddress, esp_now_send_status_t status) 

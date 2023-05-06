@@ -3,7 +3,7 @@
 #include "Encryption-Decryption.h"      // to save secret KEY
 
 #define MAX_RAND 4294967295
-#define SENDER_DH                       // *!* this file is sender's file *!* note : for receiver file remove this macro
+// #define SENDER_DH                       // *!* this file is sender's file *!* note : for receiver file remove this macro
 
 typedef uint32_t ui;                    // unsigned int
 ui generator, prime;
@@ -50,18 +50,12 @@ int DHProtocol(MAC_ADDRESS macAddr) {
     /* this part is for sender */
         Serial.println("\n** Role : Sender **");
 
-        Serial.println("\n** generating g and p **");
-
         generator = generateRandom();
         prime = 857328397;                                                                           // TODO : implement a randomPrime func
-
-        Serial.println("\n** generating initPacket **");
-
+    
         String generatorStr = std::to_string(generator).c_str();
         String primeStr = std::to_string(prime).c_str();
         String initPacket = "<diffie-hellman/initPacket>\n" + generatorStr + "\n" + primeStr + "\n";    // <diffie-hellman/initPacket> is flag for initPacket , TODO : packet could be better
-
-        Serial.println("\n** sending initPacket **");
 
         broadCast(initPacket, macAddr);
     /* ---------------------- */
@@ -112,18 +106,17 @@ int DHProtocol(MAC_ADDRESS macAddr) {
     String publicKeyStr = std::to_string(publicKey).c_str();
     String sharedPacket = "<diffie-hellman/sharedPacket>\n" + publicKeyStr + "\n";         // <diffie-hellman/sharedPacket> is flag for sharedPacket , TODO : packet could be better
 
+    Serial.print(">> wating for packet .");
+
+    while(getLastReceivedPacket() == "\0") {
+    };                                                // wait until peer sends packet
+    Serial.println("\n** packet received **");
+
     Serial.println("\n** sending sharedPacket **");
 
     delay(1000);
 
     broadCast(sharedPacket, macAddr);                                                      // TODO : implement RSA or DSA algorithm for this part
-    
-    Serial.print(">> wating for packet .");
-
-    while(getLastReceivedPacket() == "\0") {
-    };                                                // wait until peer sends packet
-
-    Serial.println("\n** packet receievd **");
 
     String packet = getLastReceivedPacket(), keyStr = "";
     data = "", header = "";                                                                 // split packet

@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include "ESP_NOW_.h"
 
-#define SENDER_DH
+// #define SENDER_DH
 
 /*
                                                   <Diffie-Hellman protocol steps>
