@@ -231,28 +231,58 @@ String getParameters() {
     return parameters;
 }
 
-// int testDH(MAC_ADDRESS macAddr) {                                           // test for DH
-//     int res = 0;
-//     String plainText = "THIS IS A TEST FOR DIFFIE-HELLMAN";
 
-//     #ifdef SENDER_DH
-//         // broadCast(encryptMessage(plainText),macAddr);
+int testDH(MAC_ADDRESS macAddr) {                                           // test for DH
+    int res = 0;
+    String plainText = "THIS IS A TEST FOR DIFFIE-HELLMAN";
 
-//         while(getLastReceivedPacket() == "\0");
 
-//         if(decryptMessage(getLastReceivedPacket()) != plainText) 
-//             res = -1;
-//     #endif
-//     #ifndef SENDER_DH
-//         while(getLastReceivedPacket() == "\0");
+    #ifdef SENDER_DH
+        char* msgChar;
+        plainText.toCharArray(msgChar, plainText.length());
+        AES_Encrypt((unsigned char*) msgChar);
+        String out(msgChar, plainText.length());
+        broadCast(out, macAddr);
 
-//         if(decryptMessage(getLastReceivedPacket()) != plainText) 
-//             res = -1;
+        while(getLastReceivedPacket() == "\0");
 
-//         // broadCast(encryptMessage(plainText), macAddr);
-//     #endif
+        String in = getLastReceivedPacket();
 
-//     return res;
-// }
+        setLastReceivedPacket("\0");
+
+        if(in == out) {
+            Serial.println("\n** Test was successful **");
+        } else {
+            Serial.println("\n** Test was failed **");
+            res = -1;
+        }
+
+    #endif
+    #ifndef SENDER_DH
+        while(getLastReceivedPacket() == "\0");
+
+        String in = getLastReceivedPacket();
+
+        setLastReceivedPacket("\0");
+
+        char* msgChar;
+        plainText.toCharArray(msgChar, plainText.length());
+        AES_Encrypt((unsigned char*) msgChar);
+        String out(msgChar, plainText.length());
+        broadCast(out, macAddr);
+
+
+        if(in == out) {
+            Serial.println("\n** Test was successful **");
+        } else {
+            Serial.println("\n** Test was failed **");
+            res = -1;
+        }
+        // broadCast(encryptMessage(plainText), macAddr);
+    #endif
+
+    return res;
+}
+
 
     
