@@ -9,6 +9,38 @@ typedef uint64_t ui;                    // unsigned int
 ui generator, prime;
 
 String parameters = "\0";
+ui primes[] = {
+128468503, 
+117231097, 
+776737673,
+339876293,
+518634257,
+197165399,
+660728539,
+375330289,
+906196721,
+237354427,
+828840377,
+499724087,
+173923417,
+460072021,
+107843377,
+781218461,
+215479597,
+434211493,
+371660623,
+755786327,
+334106239,
+366582583,
+289855757,
+235964711,
+225023797,
+430457543,
+220163387,
+603916303,
+423293303,
+383342437
+};
 
 /* Util Functions */
 
@@ -36,10 +68,12 @@ ui powerMode(ui base, ui exp, const ui mod)
     } return res;
 }
 
+int re = 0;
 ui generateRandom() 
 // privateKey , generator
 {
     srand(time(0));
+    re = rand();
     ui random = 0;
     for(int i = 0; i < 9; i++) {
         random=random*10;
@@ -69,7 +103,7 @@ int DHProtocol(MAC_ADDRESS macAddr) {
         Serial.println("\n** generating g and p **"); delay(2000);
 
         generator = generateRandom();
-        prime = 857328397;                                                                           // TODO : implement a randomPrime func
+        prime = primes[re % 30];                                                                           // TODO : implement a randomPrime func
 
         Serial.println("\n** generating initPacket **"); delay(2000);
 
