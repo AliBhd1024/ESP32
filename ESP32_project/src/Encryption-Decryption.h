@@ -3,9 +3,10 @@
 
 #include <Arduino.h>
 
-void setKEY(uint32_t key);
+void setKEY(uint64_t key);
 
-void AES_Encrypt(unsigned char* message);
+String encMsg(String text);
+String decMsg(String text);
 
 // String decryptMessage(const String encryptedMessage);
 
