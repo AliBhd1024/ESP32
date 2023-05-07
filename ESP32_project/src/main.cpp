@@ -3,8 +3,8 @@
 #include "Diffie-Hellman.h"
 #include "Encryption-Decryption.h"
 
-MAC_ADDRESS bobMacAddress = {0xEC, 0x62, 0x60, 0x9C, 0xE7, 0x4C};         // receiver's mac 
-// MAC_ADDRESS bobMacAddress = {0xEC, 0x62, 0x60, 0x94, 0xC7, 0xA4};            // sender's mac
+// MAC_ADDRESS bobMacAddress = {0xEC, 0x62, 0x60, 0x9C, 0xE7, 0x4C};         // receiver's mac 
+MAC_ADDRESS bobMacAddress = {0xEC, 0x62, 0x60, 0x94, 0xC7, 0xA4};            // sender's mac
 
 void setup() {
   Serial.begin(115200);
@@ -31,8 +31,6 @@ void setup() {
     Serial.println(getParameters());
     while(1);                                                            // stop program if DH failed
   }
-  uint32_t key = 1234567;
-  setKEY(key);
 
   // unsigned char message[]  = "1234567891234567";
 
@@ -41,10 +39,23 @@ void setup() {
 }
 
 void loop() {
-    // while(Serial.available() == 0);                                     // wait until something is entered
+  String message; 
+  String recMsg;
+  // while(Serial.available() == 0);                                     // wait until something is entered
 
-    // String message = Serial.readString();                                                
+  //                                                
 
-    // // broadCast(encryptMessage(message), bobMacAddress);                  // TODO : what if length of message was more then 250 chars
-    
+  // broadCast(encMsg(message), bobMacAddress);                  // TODO : what if length of message was more then 250 chars
+
+  if(Serial.available() != 0) {
+    message = Serial.readString();
+
+    broadCast(encMsg(message) , bobMacAddress);
+  }
+
+  if(getLastReceivedPacket() != "\0") {
+    recMsg = decMsg(getLastReceivedPacket());
+    Serial.println(recMsg);
+    setLastReceivedPacket("\0");
+  }
 }
